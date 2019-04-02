@@ -2,25 +2,24 @@ console.log('Starting the app now!')
 
 const fs = require('fs');
 const _ = require('lodash');
-
+const yargs = require('yargs');
 const noteUtils = require('./noteUtils');
 
-const inputCommand = process.argv[2];
+const argv = yargs.argv ;
+
+const inputCommand = argv._[0];
 switch(inputCommand){
     case 'add' :
-        console.log('Adding a new note');
+        noteUtils.addNote(argv.title,argv.body)
         break;
     case 'list' :
-        console.log('Listing all notes');
-        break;
-    case 'edit' :
-        console.log('Editing the note');
+        noteUtils.getAllNotes();
         break;
     case 'read':
-        console.log('Reading the note');
+        noteUtils.readNote(argv.title);
         break;
     case 'delete' :
-        console.log('Deleting the note');
+        noteUtils.deleteNote(argv.title);
         break;
     default :
         console.log('Command not recognized');
