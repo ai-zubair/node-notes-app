@@ -1,9 +1,30 @@
 console.log('Starting the app now!')
-const os = require('os');
+
+const fs = require('fs');
 const _ = require('lodash');
-// const noteUtils=require('./noteUtils');
-// const userData=os.userInfo()
-// noteUtils.addNote(userData.username);
-console.log(_.isString('abc'));
-console.log(_.isString(123));
-console.log(_.uniq([1,2,1,3,4,5,1]))
+
+const noteUtils = require('./noteUtils');
+
+const inputCommand = process.argv[2];
+console.log(process.argv);
+
+switch(inputCommand){
+    case 'add' :
+        console.log('Adding a new note');
+        break;
+    case 'list' :
+        console.log('Listing all notes');
+        break;
+    case 'edit' :
+        console.log('Editing the note');
+        break;
+    case 'read':
+        console.log('Reading the note');
+        break;
+    case 'delete' :
+        console.log('Deleting the note');
+        break;
+    default :
+        console.log('Command not recognized');
+        break;
+}
