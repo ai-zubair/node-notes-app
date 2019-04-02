@@ -6,7 +6,6 @@ const _ = require('lodash');
 const noteUtils = require('./noteUtils');
 
 const inputCommand = process.argv[2];
-
 switch(inputCommand){
     case 'add' :
         console.log('Adding a new note');
