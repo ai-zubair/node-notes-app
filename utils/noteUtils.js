@@ -16,9 +16,9 @@ const saveNotes = (newNotes) => {
     fs.writeFileSync('note-data.json',JSON.stringify(newNotes));
 }
 
-const noteExists = (savedNotes,newNoteTitle) => {
+const noteExists = (noteTitle) => {
     for(let savedNote of savedNotes){
-        if( savedNote.title === newNoteTitle){
+        if( savedNote.title === noteTitle){
             return savedNotes.indexOf(savedNote);
         }
     }
@@ -26,14 +26,15 @@ const noteExists = (savedNotes,newNoteTitle) => {
 }
 
 const showNote = ( note ) => {
-    console.log(`\nTitle: ${note.title}\nBody: ${note.body}\n`)
+    console.log(`\nTitle: ${note.title}\nContent: ${note.body}\nCreated: ${note.created}\n`)
 } 
 const addNote = (noteTitle,noteBody) => {
     const newNote = {
         title:noteTitle,
-        body:noteBody
+        body:noteBody,
+        created: Date()
     } 
-    if(noteExists(savedNotes,noteTitle) < 0){
+    if(noteExists(noteTitle) < 0){
         savedNotes.push(newNote);
         saveNotes(savedNotes);
         console.log('Note added successfully');
@@ -44,22 +45,33 @@ const addNote = (noteTitle,noteBody) => {
 }
 
 const getAllNotes = () => {
-    console.log('Getting all of the saved notes');
+    if( savedNotes.length === 0 ){
+        console.log('Ooops no notes found!');
+        return ;
+    }
+    for(let note of savedNotes){
+        showNote(note);
+    }
 }
 
-const readNote = (title) => {
-    console.log('Reading the note ',title,' now');
+const readNote = (noteTitle) => {
+    const noteIndex = noteExists(noteTitle)
+    if( noteIndex > -1 ){
+        showNote(savedNotes[noteIndex]);
+    } else {
+        console.log(`Ooops! Note ${noteTitle} was not found!`)
+    }
 }
 
-const deleteNote = (title) => {
-    const noteIndex = noteExists(savedNotes,title);
+const deleteNote = (noteTitle) => {
+    const noteIndex = noteExists(noteTitle);
     if( noteIndex > -1 ){
         const deletedNote = savedNotes.splice(noteIndex,1)[0];
         saveNotes(savedNotes);
         console.log('Note deleted successfully');
         showNote(deletedNote)
     } else {
-        console.log(`Ooops! Note ${title} was not found!`)
+        console.log(`Ooops! Note ${noteTitle} was not found!`)
     }
 }
 
