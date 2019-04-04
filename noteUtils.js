@@ -1,25 +1,46 @@
 const fs=require('fs');
 
+const fetchSavedNotes = () => {
+    var notes=[];
+    try{
+        notes=JSON.parse(fs.readFileSync('note-data.json'));
+    } catch(err){
+        console.log('No previous notes found! Adding the first note!');
+        return notes; 
+    }
+    return notes;  
+}
+
+const saveNotes = (notes) => {
+    fs.writeFileSync('note-data.json',JSON.stringify(notes));
+    console.log('Note added succesfully!')
+}
+
+const isDuplicateNote = (notes,newNote) => {
+    for(let savedNote of notes){
+        if( savedNote.title === newNote.title){
+            return true;
+        }
+    }
+    return false;
+}
+
+const showNote = ( note ) => {
+    console.log(`\nTitle: ${note.title}\nBody: ${note.body}\n`)
+} 
 const addNote = (title,body) => {
     const newNote = {
         title,
         body
     }
-    var notes = [];
-    try{
-        notes=JSON.parse(fs.readFileSync('note-data.json'));
-        for(let savedNote of notes){
-            if( savedNote.title === title){
-                console.log(`A note with the title ${newNote.title} already exists. Please Try With A Different Title.`)
-                return false;
-            }
-        }
-    } catch(err){
-        console.log('Creating your first ever note!')
+    const savedNotes = fetchSavedNotes(); 
+    if(!isDuplicateNote(savedNotes,newNote)){
+        savedNotes.push(newNote);
+        saveNotes(savedNotes);
+        showNote(newNote);
+    } else{
+        console.log(`A note with the title ${newNote.title} already exists. Please Try With A Different Title.`)
     }
-    notes.push(newNote);
-    fs.writeFileSync('note-data.json',JSON.stringify(notes));
-    return true;
 }
 
 const getAllNotes = () => {
