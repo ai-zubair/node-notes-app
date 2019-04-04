@@ -1,42 +1,42 @@
 const fs=require('fs');
 
-const fetchSavedNotes = () => {
+const savedNotes = fetchSavedNotes();
+
+function fetchSavedNotes(){
     var notes=[];
     try{
         notes=JSON.parse(fs.readFileSync('note-data.json'));
     } catch(err){
-        console.log('No previous notes found! Adding the first note!');
         return notes; 
     }
     return notes;  
 }
 
-const saveNotes = (notes) => {
-    fs.writeFileSync('note-data.json',JSON.stringify(notes));
-    console.log('Note added succesfully!')
+const saveNotes = (newNotes) => {
+    fs.writeFileSync('note-data.json',JSON.stringify(newNotes));
 }
 
-const isDuplicateNote = (notes,newNote) => {
-    for(let savedNote of notes){
-        if( savedNote.title === newNote.title){
-            return true;
+const noteExists = (savedNotes,newNoteTitle) => {
+    for(let savedNote of savedNotes){
+        if( savedNote.title === newNoteTitle){
+            return savedNotes.indexOf(savedNote);
         }
     }
-    return false;
+    return -1;
 }
 
 const showNote = ( note ) => {
     console.log(`\nTitle: ${note.title}\nBody: ${note.body}\n`)
 } 
-const addNote = (title,body) => {
+const addNote = (noteTitle,noteBody) => {
     const newNote = {
-        title,
-        body
-    }
-    const savedNotes = fetchSavedNotes(); 
-    if(!isDuplicateNote(savedNotes,newNote)){
+        title:noteTitle,
+        body:noteBody
+    } 
+    if(noteExists(savedNotes,noteTitle) < 0){
         savedNotes.push(newNote);
         saveNotes(savedNotes);
+        console.log('Note added successfully');
         showNote(newNote);
     } else{
         console.log(`A note with the title ${newNote.title} already exists. Please Try With A Different Title.`)
@@ -52,7 +52,15 @@ const readNote = (title) => {
 }
 
 const deleteNote = (title) => {
-    console.log('Deleting the note ',title);
+    const noteIndex = noteExists(savedNotes,title);
+    if( noteIndex > -1 ){
+        const deletedNote = savedNotes.splice(noteIndex,1)[0];
+        saveNotes(savedNotes);
+        console.log('Note deleted successfully');
+        showNote(deletedNote)
+    } else {
+        console.log(`Ooops! Note ${title} was not found!`)
+    }
 }
 
 module.exports = {
