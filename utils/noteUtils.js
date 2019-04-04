@@ -49,9 +49,7 @@ const getAllNotes = () => {
         console.log('Ooops no notes found!');
         return ;
     }
-    for(let note of savedNotes){
-        showNote(note);
-    }
+    savedNotes.forEach( note => showNote(note));
 }
 
 const readNote = (noteTitle) => {
