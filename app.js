@@ -1,14 +1,14 @@
 const yargs = require('yargs');
-const noteUtils = require('./utils/noteUtils');
+const taskUtils = require('./utils/taskUtils');
 
 const titleOptions = {
-    describe:'Title of the note',
+    describe:'Title of the Task',
     demand:true,
     alias:'t'
 }
 
 const bodyOptions = {
-    describe:'Content of the note.',
+    describe:'Content of the Task.',
         demand:true,
         alias:'b'
 }
@@ -22,26 +22,26 @@ const commonOption ={
     title:titleOptions
 }
 
-const argv = yargs.command('<add>','Adds a note.',addOptions)
-    .command('<list>','Lists all the saved notes.')
-    .command('<read>','Reads a saved note.',commonOption)
-    .command('<delete>','Deletes a saved note.',commonOption)
+const argv = yargs.command('<add>','Adds a task.',addOptions)
+    .command('<list>','Lists all the saved tasks.')
+    .command('<status>','Status of a saved task.',commonOption)
+    .command('<delete>','Deletes a saved task.',commonOption)
     .help()
     .argv ;
 
 const inputCommand = argv._[0];
 switch(inputCommand){
     case 'add' :
-        noteUtils.addNote(argv.title,argv.body)
+        taskUtils.addTask(argv.title,argv.body)
         break;
     case 'list' :
-        noteUtils.getAllNotes();
+        taskUtils.getAllTasks();
         break;
-    case 'read':
-        noteUtils.readNote(argv.title);
+    case 'status':
+        taskUtils.getTask(argv.title);
         break;
     case 'delete' :
-        noteUtils.deleteNote(argv.title);
+        taskUtils.deleteTask(argv.title);
         break;
     default :
         console.log('App Command not recognized!');
