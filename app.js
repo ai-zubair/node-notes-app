@@ -3,7 +3,7 @@ console.log('Starting the app now!')
 const fs = require('fs');
 const _ = require('lodash');
 const yargs = require('yargs');
-const noteUtils = require('./noteUtils');
+const noteUtils = require('./utils/noteUtils');
 
 const argv = yargs.argv ;
 
