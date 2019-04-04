@@ -9,7 +9,6 @@
   "author": "Zubair Bashir",
   "license": "ISC",
   "dependencies": {
-    "lodash": "^4.17.11",
     "yargs": "^13.2.2"
   }
 }
