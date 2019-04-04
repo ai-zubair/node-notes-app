@@ -1,38 +1,38 @@
 const yargs = require('yargs');
 const taskUtils = require('./utils/taskUtils');
 
-const titleOptions = {
+const taskTitleOptions = {
     describe:'Title of the Task',
     demand:true,
     alias:'t'
 }
 
-const bodyOptions = {
+const taskInfoOptions = {
     describe:'Content of the Task.',
-        demand:true,
-        alias:'b'
+    demand:true,
+    alias:'i'
 }
 
-const addOptions = {
-    title:titleOptions,
-    body:bodyOptions
+const taskAddOptions = {
+    title:taskTitleOptions,
+    info:taskInfoOptions
 }
 
-const commonOption ={
-    title:titleOptions
+const commonTaskOption ={
+    title:taskTitleOptions
 }
 
-const argv = yargs.command('<add>','Adds a task.',addOptions)
+const argv = yargs.command('<add>','Adds a task.',taskAddOptions)
     .command('<list>','Lists all the saved tasks.')
-    .command('<status>','Status of a saved task.',commonOption)
-    .command('<delete>','Deletes a saved task.',commonOption)
+    .command('<status>','Status of a saved task.',commonTaskOption)
+    .command('<delete>','Deletes a saved task.',commonTaskOption)
     .help()
     .argv ;
 
-const inputCommand = argv._[0];
-switch(inputCommand){
+const userInput = argv._[0];
+switch(userInput){
     case 'add' :
-        taskUtils.addTask(argv.title,argv.body)
+        taskUtils.addTask(argv.title,argv.info)
         break;
     case 'list' :
         taskUtils.getAllTasks();

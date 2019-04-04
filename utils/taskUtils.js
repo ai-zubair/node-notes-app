@@ -26,12 +26,12 @@ const taskExists = (taskTitle) => {
 }
 
 const showTask = ( task ) => {
-    console.log(`\nTitle: ${task.title}\nContent: ${task.body}\nCreated: ${task.created}\n`)
+    console.log(`\nTitle: ${task.title}\nInfo: ${task.info}\nCreated: ${task.created}\n`)
 } 
-const addTask = (taskTitle,taskBody) => {
+const addTask = (taskTitle,taskInfo) => {
     const newTask = {
         title:taskTitle,
-        body:taskBody,
+        info:taskInfo,
         created: Date()
     } 
     if(taskExists(taskTitle) < 0){
