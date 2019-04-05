@@ -29,7 +29,7 @@ const addOptions = {
 }
 
 const commonOption ={
-    title:taskTitleOptions,
+    title:taskTitleDesc,
 }
 
 const setOptions = {
