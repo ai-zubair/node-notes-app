@@ -1,38 +1,49 @@
-const taskTitleOptions = {
+const addDesc = 'Adds a task.';
+const listDesc = 'Lists all the saved tasks.';
+const statusDesc = 'Status of a saved task.';
+const deleteDesc = 'Deletes a saved task.';
+const setDesc = 'Sets the status entry for a task.'
+
+const taskTitleDesc = {
     describe:'Title of the Task',
     demand:true,
     alias:'t'
 }
 
-const taskInfoOptions = {
+const taskInfoDesc = {
     describe:'Content of the Task.',
     demand:true,
     alias:'i'
 }
 
-const taskStatusOptions = {
+const taskStatusDesc = {
     describe:'Current status of the task',
     demand:true,
     alias:'s'
 }
 
-const taskAddOptions = {
-    title:taskTitleOptions,
-    info:taskInfoOptions,
-    status:taskStatusOptions
+const addOptions = {
+    title:taskTitleDesc,
+    info:taskInfoDesc,
+    status:taskStatusDesc
 }
 
 const commonOption ={
     title:taskTitleOptions,
 }
 
-const setStatusOptions = {
-    title : taskTitleOptions,
-    status : taskStatusOptions
+const setOptions = {
+    title : taskTitleDesc,
+    status : taskStatusDesc
 }
 
 module.exports = {
-    taskAddOptions,
+    addOptions,
     commonOption,
-    setStatusOptions
+    setOptions,
+    addDesc, 
+    listDesc,
+    statusDesc,
+    deleteDesc,
+    setDesc
 }

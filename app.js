@@ -2,11 +2,11 @@ const yargs = require('yargs');
 const cmdValidation = require('./utils/commandValidations');
 const taskUtils = require('./utils/taskUtils');
 
-const argv = yargs.command('<add>','Adds a task.',cmdValidation.taskAddOptions)
-    .command('<list>','Lists all the saved tasks.')
-    .command('<status>','Status of a saved task.',cmdValidation.commonOption)
-    .command('<delete>','Deletes a saved task.',cmdValidation.commonOption)
-    .command('<set>','Sets the status entry for a task.n',cmdValidation.setStatusOptions)
+const argv = yargs.command( '<add>' , cmdValidation.addDesc , cmdValidation.addOptions )
+    .command( '<list>' , cmdValidation.listDesc )
+    .command( '<status>' , cmdValidation.statusDesc , cmdValidation.commonOption )
+    .command( '<delete>' , cmdValidation.deleteDesc , cmdValidation.commonOption )
+    .command( '<set>' , cmdValidation.setDesc , cmdValidation.setOptions )
     .help()
     .argv ;
 
