@@ -73,13 +73,15 @@ const deleteTask = (taskTitle) => {
 }
 
 const isValidStringStatusEntry = ( task , stringEntry) => {
+    console.log('Im here today')
     const statusPhraseValidation = ['To-do','Just begun','In progress','Halfway','Nearly Done','Done'];
+    debugger;
     const stringEntryIndex = statusPhraseValidation.indexOf(stringEntry);
     if ( stringEntryIndex < 0 ){
         return false;
     }
     for( let statusEntry of task.status ){
-        if( typeof statusEntry.value === 'string' || statusPhraseValidation.indexOf(statusEntry.value) >= stringEntryIndex ){
+        if( typeof statusEntry.value === 'number' || statusPhraseValidation.indexOf(statusEntry.value) >= stringEntryIndex ){
             return false;
         }
     }
