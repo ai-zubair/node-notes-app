@@ -1,6 +1,20 @@
 const fs=require('fs');
 const statusValidation = require('./statusValidations');
 
+//task  utilities begin
+const createNewTask = (taskTitle,taskInfo) => {
+    return {
+            title:taskTitle,
+            info:taskInfo,
+            created: Date(),
+            status:[]
+    }
+}
+
+const saveTasks = (newTasks) => {
+    fs.writeFileSync('task-data.json',JSON.stringify(newTasks));
+}
+
 const fetchSavedTasks = () => {
     var tasks=[];
     try{
@@ -11,8 +25,8 @@ const fetchSavedTasks = () => {
     return tasks;  
 }
 
-const saveTasks = (newTasks) => {
-    fs.writeFileSync('task-data.json',JSON.stringify(newTasks));
+const showTask = ( task ) => {
+    console.log(`\nTitle: ${task.title}\nInfo: ${task.info}\nCurrent Status: ${task.status[task.status.length-1].value+taskEntrySuffix(task.status[task.status.length-1].value)}\nCreated: ${task.created}\n`)
 }
 
 const taskExists = (savedTasks,taskTitle) => {
@@ -23,11 +37,9 @@ const taskExists = (savedTasks,taskTitle) => {
     }
     return -1;
 }
+//task utilities end
 
-const showTask = ( task ) => {
-    console.log(`\nTitle: ${task.title}\nInfo: ${task.info}\nCurrent Status: ${task.status[task.status.length-1].value+taskEntrySuffix(task.status[task.status.length-1].value)}\nCreated: ${task.created}\n`)
-} 
-
+//status utilites begin
 const newStatusEntry = ( taskEntry ) => {
     return {
         value : taskEntry,
@@ -61,23 +73,15 @@ const appendStatusEntry = ( task , taskStatusEntry) => {
         console.log('Invalid Status Entry!')
     }
 }
-
-const createNewTask = (taskTitle,taskInfo) => {
-    return {
-            title:taskTitle,
-            info:taskInfo,
-            created: Date(),
-            status:[]
-    }
-}
+//status utilities end
 
 module.exports = {
-    fetchSavedTasks,
-    taskExists,
-    appendStatusEntry,
+    createNewTask,
     saveTasks,
+    fetchSavedTasks,
     showTask,
+    taskExists,
     showStatus,
     isIntialStatusValid,
-    createNewTask
+    appendStatusEntry
 }
