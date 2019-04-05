@@ -17,7 +17,7 @@ const taskInfoDesc = {
 }
 
 const taskStatusDesc = {
-    describe:'Current status of the task',
+    describe:"Current status of the task.\nCan be a percentage(0-100) \n(or)\n['To-do','Just begun','In progress','Halfway','Nearly Done','Done']",
     demand:true,
     alias:'s'
 }
