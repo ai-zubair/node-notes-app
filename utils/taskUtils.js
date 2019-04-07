@@ -12,7 +12,7 @@ const createNewTask = (taskTitle,taskInfo) => {
 }
 
 const saveTasks = (newTasks) => {
-    fs.writeFileSync('task-data.json',JSON.stringify(newTasks));
+    fs.writeFileSync('task-data.json',JSON.stringify(newTasks,undefined,2));
 }
 
 const fetchSavedTasks = () => {
