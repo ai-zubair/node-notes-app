@@ -5,7 +5,7 @@ const taskCommands = require('./utils/taskCommands');
 const argv = yargs.command( '<add>' , cmdValidation.addDesc , cmdValidation.addOptions )
     .command( '<list>' , cmdValidation.listDesc )
     .command( '<status>' , cmdValidation.statusDesc , cmdValidation.commonOption )
-    .command( '<delete>' , cmdValidation.deleteDesc , cmdValidation.commonOption )
+    .command( '<delete>' , cmdValidation.deleteDesc , cmdValidation.deleteOptions )
     .command( '<set>' , cmdValidation.setDesc , cmdValidation.setOptions )
     .help()
     .argv ;
@@ -22,7 +22,7 @@ switch(userInput){
         taskCommands.getStatus(argv.title);
         break;
     case 'delete' :
-        taskCommands.deleteTask(argv.title);
+        taskCommands.deleteTask(argv.title,argv.all);
         break;
     case 'set' :
         taskCommands.setStatus(argv.title,argv.status);

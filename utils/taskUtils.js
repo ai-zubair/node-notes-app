@@ -37,6 +37,13 @@ const taskExists = (savedTasks,taskTitle) => {
     }
     return -1;
 }
+
+const removeSavedTask = ( savedTasks, taskIndex ,count ) => {
+    const deletedTask = savedTasks.splice(taskIndex,count);
+    console.log('Task(s) deleted successfully.');
+    deletedTask.forEach(( task )=>showTask( task ));
+    saveTasks(savedTasks);
+}
 //task utilities end
 
 //status utilites begin
@@ -80,6 +87,7 @@ module.exports = {
     saveTasks,
     fetchSavedTasks,
     showTask,
+    removeSavedTask,
     taskExists,
     showStatus,
     isIntialStatusValid,

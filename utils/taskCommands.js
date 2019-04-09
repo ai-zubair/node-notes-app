@@ -3,7 +3,7 @@ const taskUtils = require('./taskUtils');
 const savedTasks = taskUtils.fetchSavedTasks();
 
 const addTask = (taskTitle,taskInfo,initialStatus) => {
-    if( (typeof taskTitle !== 'string' && typeof taskTitle !== 'number') || typeof taskInfo !== 'string' || (typeof initialStatus !== 'string' && typeof initialStatus !== 'number') ){
+    if( taskTitle.length === 0 || taskInfo.length === 0 || (typeof initialStatus !== 'string' && typeof initialStatus !== 'number') ){
         console.log('Invalid option values. Please retry.')
         return;
     }
@@ -41,15 +41,22 @@ const getStatus = (taskTitle) => {
     }
 }
 
-const deleteTask = (taskTitle) => {
-    const taskIndex = taskUtils.taskExists(savedTasks,taskTitle);
-    if( taskIndex > -1 ){
-        const deletedTask = savedTasks.splice(taskIndex,1)[0];
-        taskUtils.saveTasks(savedTasks);
-        console.log('Task deleted successfully');
-        taskUtils.showTask(deletedTask)
-    } else {
-        console.log(`Ooops! Task ${taskTitle} was not found!`)
+const deleteTask = (taskTitle,allOption) => {
+    if(allOption === true ){
+        if(savedTasks.length>0){
+            taskUtils.removeSavedTask( savedTasks ,0,savedTasks.length);
+        }else{
+            console.log(`Ooops! Looks like you have no saved tasks!`)
+        }
+    }else if(typeof taskTitle !== 'undefined' ){
+        const taskIndex = taskUtils.taskExists(savedTasks,taskTitle);
+        if( taskIndex > -1 ){
+            taskUtils.removeSavedTask( savedTasks ,taskIndex,1);
+        } else {
+            console.log(`Ooops! Task ${taskTitle} was not found!`);
+        }
+    }else{
+        console.log(`Invalid command options. Please refer to the documentation @  https://github.com/ai-zubair/todo-app `)
     }
 }
 
