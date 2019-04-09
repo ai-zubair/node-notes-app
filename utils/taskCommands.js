@@ -3,17 +3,12 @@ const taskUtils = require('./taskUtils');
 const savedTasks = taskUtils.fetchSavedTasks();
 
 const addTask = (taskTitle,taskInfo,initialStatus) => {
-    if( taskTitle.length === 0 || taskInfo.length === 0 || (typeof initialStatus !== 'string' && typeof initialStatus !== 'number') ){
+    if( taskTitle.length === 0 || taskInfo.length === 0 || !isIntialStatusValid(newTask,initialStatus) ){
         console.log('Invalid option values. Please retry.')
         return;
     }
     if( taskUtils.taskExists(savedTasks,taskTitle) < 0 ){
         const newTask = taskUtils.createNewTask(taskTitle,taskInfo);
-        const isInitialStatusValid = taskUtils.isIntialStatusValid(newTask,initialStatus);
-        if( !isInitialStatusValid ) {
-            console.log('Invalid initial status of the task. Please retry or check the documentation @ https://github.com/ai-zubair/todo-app ');
-            return;
-        }
         savedTasks.push(newTask);
         taskUtils.appendStatusEntry(newTask,initialStatus); 
         taskUtils.saveTasks(savedTasks);
@@ -48,7 +43,7 @@ const deleteTask = (taskTitle,allOption) => {
         }else{
             console.log(`Ooops! Looks like you have no saved tasks!`)
         }
-    }else if(typeof taskTitle !== 'undefined' ){
+    }else if(taskTitle.length > 0 ){
         const taskIndex = taskUtils.taskExists(savedTasks,taskTitle);
         if( taskIndex > -1 ){
             taskUtils.removeSavedTask( savedTasks ,taskIndex,1);
