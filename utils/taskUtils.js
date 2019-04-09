@@ -26,7 +26,7 @@ const fetchSavedTasks = () => {
 }
 
 const showTask = ( task ) => {
-    console.log(`\nTitle: ${task.title}\nInfo: ${task.info}\nCurrent Status: ${task.status[task.status.length-1].value+taskEntrySuffix(task.status[task.status.length-1].value)}\nCreated: ${task.created}\n`)
+    console.log(`\nTitle: ${task.title}\nInfo: ${task.info}\nCurrent Status: ${currentStatus(task)+taskEntrySuffix(currentStatus(task))}\nCreated: ${task.created}\n`)
 }
 
 const taskExists = (savedTasks,taskTitle) => {
@@ -71,11 +71,25 @@ const isIntialStatusValid = ( task,taskStatusEntry ) => {
     return statusValidation.validateTaskStatus(task,taskStatusEntry);
 }
 
+const currentStatus = ( task ) => {
+    if(task.status.length >0){
+        return task.status[task.status.length-1].value;
+    }
+}
+
 const appendStatusEntry = ( task , taskStatusEntry) => {
+    if( currentStatus(task) === "Done" || currentStatus(task) === 100 ){
+        console.log(`The task ${task.title} has already been completed!`);
+        return;
+    }
     const isTaskStatusValid = statusValidation.validateTaskStatus(task,taskStatusEntry);
     if( isTaskStatusValid ) {
         const statusEntry = newStatusEntry(taskStatusEntry);
         task.status.push(statusEntry);
+        if( taskStatusEntry === 100 || taskStatusEntry === "Done"){
+            console.log(`Congrats! You've successfully completed ${task.title}!`);
+            showTask(task)
+        }
     } else {
         console.log('Invalid Status Entry!')
     }

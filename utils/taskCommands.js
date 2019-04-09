@@ -43,7 +43,7 @@ const deleteTask = (taskTitle,allOption) => {
         }else{
             console.log(`Ooops! Looks like you have no saved tasks!`)
         }
-    }else if(taskTitle.length > 0 ){
+    }else if(taskTitle && taskTitle.length > 0 ){
         const taskIndex = taskUtils.taskExists(savedTasks,taskTitle);
         if( taskIndex > -1 ){
             taskUtils.removeSavedTask( savedTasks ,taskIndex,1);
