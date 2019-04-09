@@ -50,6 +50,32 @@ const removeSavedTask = ( savedTasks, taskIndex ,count ) => {
     deletedTask.forEach(( task )=>showTask( task ));
     saveTasks(savedTasks);
 }
+
+const showAllTasks = ( savedTasks ) => {
+    savedTasks.forEach((task)=>showTask(task));
+}
+
+const showCompletedTasks = ( savedTasks ) => {
+    const completedTasks = savedTasks.filter((task)=>{
+        return ( currentStatus(task) === 'Done' ) || ( currentStatus(task) === 100 );
+    })
+    if(completedTasks.length>0){
+        showAllTasks(completedTasks);
+    }else{
+        console.log(`Uh! Oh! ${userName} you haven't completed any tasks yet.`)
+    }
+}
+
+const showPendingTasks = ( savedTasks ) => {
+    const pendingTasks = savedTasks.filter((task)=>{
+        return !( currentStatus(task) === 'Done' ) && !( currentStatus(task) === 100 );
+    })
+    if(pendingTasks.length>0){
+        showAllTasks(pendingTasks);
+    }else{
+        console.log(`My! My! ${userName} you have completed all the tasks.`)
+    }
+}
 //task utilities end
 
 //status utilites begin
@@ -107,8 +133,11 @@ module.exports = {
     saveTasks,
     fetchSavedTasks,
     showTask,
-    removeSavedTask,
     isTaskTitleValid,
+    removeSavedTask,
+    showAllTasks,
+    showCompletedTasks,
+    showPendingTasks,
     taskExists,
     showStatus,
     isIntialStatusValid,

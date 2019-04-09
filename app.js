@@ -3,7 +3,7 @@ const cmdValidation = require('./utils/commandValidations');
 const taskCommands = require('./utils/taskCommands');
 
 const argv = yargs.command( '<add>' , cmdValidation.addDesc , cmdValidation.addOptions )
-    .command( '<list>' , cmdValidation.listDesc )
+    .command( '<list>' , cmdValidation.listDesc, cmdValidation.listOptions )
     .command( '<status>' , cmdValidation.statusDesc , cmdValidation.commonOption )
     .command( '<delete>' , cmdValidation.deleteDesc , cmdValidation.deleteOptions )
     .command( '<set>' , cmdValidation.setDesc , cmdValidation.setOptions )
@@ -16,7 +16,7 @@ switch(userInput){
         taskCommands.addTask(argv.title,argv.info,argv.status)
         break;
     case 'list' :
-        taskCommands.getAllTasks();
+        taskCommands.getAllTasks(argv.type);
         break;
     case 'status':
         taskCommands.getStatus(argv.title);

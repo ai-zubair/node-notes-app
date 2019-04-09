@@ -29,11 +29,17 @@ const deleteTaskDesc ={
     alias:'t',
     string:true
 }
-const allTaskInfo = {
+const allTaskDesc = {
     describe:"Delete all the saved tasks.",
     demand: false,
     alias:'d',
     boolean:true
+}
+const listTypeDesc ={
+    describe:'List specific tasks only.["all","done","pending"]',
+    demand:true,
+    alias:'t',
+    string:true
 }
 
 const addOptions = {
@@ -42,13 +48,17 @@ const addOptions = {
     status:taskStatusDesc
 }
 
+const listOptions = {
+   type : listTypeDesc
+}
+
 const commonOption ={
     title:taskTitleDesc,
 }
 
 const deleteOptions = {
     title : deleteTaskDesc,
-    all : allTaskInfo
+    all : allTaskDesc
 }
 
 const setOptions = {
@@ -58,6 +68,7 @@ const setOptions = {
 
 module.exports = {
     addOptions,
+    listOptions,
     commonOption,
     setOptions,
     deleteOptions,

@@ -19,12 +19,24 @@ const addTask = (taskTitle,taskInfo,initialStatus) => {
     }
 }
 
-const getAllTasks = () => {
+const getAllTasks = ( taskType ) => {
     if( savedTasks.length === 0 ){
         console.log('Ooops no tasks found!');
         return ;
     }
-    savedTasks.forEach( task => taskUtils.showTask(task));
+    switch( taskType ){
+        case 'all':
+            taskUtils.showAllTasks( savedTasks );
+            break;
+        case 'done':
+            taskUtils.showCompletedTasks( savedTasks );
+            break;
+        case 'pending':
+            taskUtils.showPendingTasks( savedTasks );
+            break;
+        default:
+            console.log('Invalid options.')
+    }
 }
 
 const getStatus = (taskTitle) => {
