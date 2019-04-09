@@ -3,12 +3,12 @@ const taskUtils = require('./taskUtils');
 const savedTasks = taskUtils.fetchSavedTasks();
 
 const addTask = (taskTitle,taskInfo,initialStatus) => {
-    if( taskTitle.length === 0 || taskInfo.length === 0 || !isIntialStatusValid(newTask,initialStatus) ){
+    const newTask = taskUtils.createNewTask(taskTitle,taskInfo);
+    if( taskTitle.length === 0 || taskInfo.length === 0 || !taskUtils.isIntialStatusValid(newTask,initialStatus) ){
         console.log('Invalid option values. Please retry.')
         return;
     }
     if( taskUtils.taskExists(savedTasks,taskTitle) < 0 ){
-        const newTask = taskUtils.createNewTask(taskTitle,taskInfo);
         savedTasks.push(newTask);
         taskUtils.appendStatusEntry(newTask,initialStatus); 
         taskUtils.saveTasks(savedTasks);
