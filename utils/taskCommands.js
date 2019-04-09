@@ -4,7 +4,7 @@ const savedTasks = taskUtils.fetchSavedTasks();
 
 const addTask = (taskTitle,taskInfo,initialStatus) => {
     const newTask = taskUtils.createNewTask(taskTitle,taskInfo);
-    if( taskTitle.length === 0 || taskInfo.length === 0 || !taskUtils.isIntialStatusValid(newTask,initialStatus) ){
+    if( !taskUtils.isTaskTitleValid(taskTitle) || taskInfo.length === 0 || !taskUtils.isIntialStatusValid(newTask,initialStatus) ){
         console.log('Invalid option values. Please retry.')
         return;
     }
@@ -43,7 +43,7 @@ const deleteTask = (taskTitle,allOption) => {
         }else{
             console.log(`Ooops! Looks like you have no saved tasks!`)
         }
-    }else if(taskTitle && taskTitle.length > 0 ){
+    }else if( taskUtils.isTaskTitleValid( taskTitle)){
         const taskIndex = taskUtils.taskExists(savedTasks,taskTitle);
         if( taskIndex > -1 ){
             taskUtils.removeSavedTask( savedTasks ,taskIndex,1);

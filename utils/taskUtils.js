@@ -1,6 +1,10 @@
 const fs=require('fs');
 const statusValidation = require('./statusValidations');
 
+//constants section begins
+const userName = process.env.USER ;
+//constants sections ends
+
 //task  utilities begin
 const createNewTask = (taskTitle,taskInfo) => {
     return {
@@ -28,6 +32,8 @@ const fetchSavedTasks = () => {
 const showTask = ( task ) => {
     console.log(`\nTitle: ${task.title}\nInfo: ${task.info}\nCurrent Status: ${currentStatus(task)+taskEntrySuffix(currentStatus(task))}\nCreated: ${task.created}\n`)
 }
+
+const isTaskTitleValid = ( taskTitle ) => taskTitle && taskTitle.length > 0 ; 
 
 const taskExists = (savedTasks,taskTitle) => {
     for(let savedTask of savedTasks){
@@ -87,7 +93,7 @@ const appendStatusEntry = ( task , taskStatusEntry) => {
         const statusEntry = newStatusEntry(taskStatusEntry);
         task.status.push(statusEntry);
         if( taskStatusEntry === 100 || taskStatusEntry === "Done"){
-            console.log(`Congrats! You've successfully completed ${task.title}!`);
+            console.log(`Congrats ${userName}! You've successfully completed ${task.title}!`);
             showTask(task)
         }
     } else {
@@ -102,6 +108,7 @@ module.exports = {
     fetchSavedTasks,
     showTask,
     removeSavedTask,
+    isTaskTitleValid,
     taskExists,
     showStatus,
     isIntialStatusValid,
