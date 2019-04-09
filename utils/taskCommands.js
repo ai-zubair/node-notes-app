@@ -77,10 +77,24 @@ const setStatus = ( taskTitle , taskStatus ) => {
     }
 }
 
+const showStats = () => {
+    const totalTasks = savedTasks.length;
+    if( totalTasks === 0 ){
+        console.log(`Ah! Snap! You haven't added any tasks yet!`);
+        return;
+    }
+    const pendingTasks = taskUtils.findPendingTasks( savedTasks ).length;
+    const completedTasks = taskUtils.findCompletedTasks( savedTasks ).length;
+    const percentCompleted = ((completedTasks / totalTasks)*100).toFixed(2);
+    const percentPending = (100-percentCompleted).toFixed(2);
+    console.log(`\nShowing task stats for ${taskUtils.userName}:\n\nTotal Tasks : ${totalTasks}\nCompleted Tasks: ${completedTasks}\nPending Tasks: ${pendingTasks}\nPercentage Of Tasks Completed: ${percentCompleted}\nPercentage Of Pending Tasks: ${percentPending}\n`)
+}
+
 module.exports = {
     addTask,
     getAllTasks,
     getStatus,
     deleteTask,
-    setStatus
+    setStatus,
+    showStats
 }

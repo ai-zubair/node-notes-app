@@ -7,6 +7,7 @@ const argv = yargs.command( '<add>' , cmdValidation.addDesc , cmdValidation.addO
     .command( '<status>' , cmdValidation.statusDesc , cmdValidation.commonOption )
     .command( '<delete>' , cmdValidation.deleteDesc , cmdValidation.deleteOptions )
     .command( '<set>' , cmdValidation.setDesc , cmdValidation.setOptions )
+    .command( '<stats>' , cmdValidation.statDesc )
     .help()
     .argv ;
 
@@ -26,6 +27,9 @@ switch(userInput){
         break;
     case 'set' :
         taskCommands.setStatus(argv.title,argv.status);
+        break;
+    case 'stats' :
+        taskCommands.showStats();
         break;
     default :
         console.log('App Command not recognized!');

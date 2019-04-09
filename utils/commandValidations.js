@@ -3,6 +3,7 @@ const listDesc = 'Lists all the saved tasks.';
 const statusDesc = 'Status of a saved task.';
 const deleteDesc = 'Deletes a saved task.';
 const setDesc = 'Sets the status entry for a task.'
+const statDesc = 'Shows number and percentage of pending tasks, completed tasks etc.'
 
 const taskTitleDesc = {
     describe:'Title of the Task',
@@ -76,5 +77,6 @@ module.exports = {
     listDesc,
     statusDesc,
     deleteDesc,
-    setDesc
+    setDesc,
+    statDesc
 }

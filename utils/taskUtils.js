@@ -55,10 +55,15 @@ const showAllTasks = ( savedTasks ) => {
     savedTasks.forEach((task)=>showTask(task));
 }
 
-const showCompletedTasks = ( savedTasks ) => {
+const findCompletedTasks = ( savedTasks ) => {
     const completedTasks = savedTasks.filter((task)=>{
         return ( currentStatus(task) === 'Done' ) || ( currentStatus(task) === 100 );
     })
+    return completedTasks;
+}
+
+const showCompletedTasks = ( savedTasks ) => {
+    const completedTasks = findCompletedTasks( savedTasks );
     if(completedTasks.length>0){
         showAllTasks(completedTasks);
     }else{
@@ -66,10 +71,15 @@ const showCompletedTasks = ( savedTasks ) => {
     }
 }
 
-const showPendingTasks = ( savedTasks ) => {
+const findPendingTasks = ( savedTasks ) => {
     const pendingTasks = savedTasks.filter((task)=>{
         return !( currentStatus(task) === 'Done' ) && !( currentStatus(task) === 100 );
     })
+    return pendingTasks;
+}
+
+const showPendingTasks = ( savedTasks ) => {
+    const pendingTasks = findPendingTasks( savedTasks );
     if(pendingTasks.length>0){
         showAllTasks(pendingTasks);
     }else{
@@ -136,10 +146,13 @@ module.exports = {
     isTaskTitleValid,
     removeSavedTask,
     showAllTasks,
+    findCompletedTasks,
     showCompletedTasks,
+    findPendingTasks,
     showPendingTasks,
     taskExists,
     showStatus,
     isIntialStatusValid,
-    appendStatusEntry
+    appendStatusEntry,
+    userName
 }
