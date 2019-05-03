@@ -1,5 +1,5 @@
 {
-  "name": "todo-app",
+  "name": "todo-cli",
   "version": "1.0.0",
   "description": "A command line utility replicating the behaviour of a to-do app.",
   "main": "app.js",
@@ -10,5 +10,18 @@
   "license": "MIT",
   "dependencies": {
     "yargs": "^13.2.2"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ai-zubair/todo-app.git"
+  },
+  "keywords": [
+    "Node.js",
+    "Todo"
+  ],
+  "bugs": {
+    "url": "https://github.com/ai-zubair/todo-app/issues"
+  },
+  "homepage": "https://github.com/ai-zubair/todo-app#readme"
 }
