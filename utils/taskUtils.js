@@ -93,35 +93,25 @@ const showPendingTasks = ( savedTasks ) => {
     }
 }
 
-const calculateTime = (newTime , oldTime)=>{
-    let difference = newTime-oldTime;
-    const days = Math.floor(difference/1000/60/60/24);
-    difference -= days*1000*60*60*24;
-    const hours = Math.floor(difference/1000/60/60);
-    difference -= hours*1000*60*60;
-    const minutes = Math.floor(difference/1000/60);
-    if(!minutes && !hours && !days){
-        return 0;
-    }else{
-        return {
-            days,
-            hours,
-            minutes
-        }
+const calculateTime = (timeDifference)=>{
+    const days = Math.floor(timeDifference/1000/60/60/24);
+    timeDifference -= days*1000*60*60*24;
+    const hours = Math.floor(timeDifference/1000/60/60);
+    timeDifference -= hours*1000*60*60;
+    const minutes = Math.floor(timeDifference/1000/60);
+    return {
+        days,
+        hours,
+        minutes
     }
 }
 
-const isTaskCompleted = (task,taskStatusEntry)=>{
-    if( taskStatusEntry === 100 || taskStatusEntry === "Done"){
-        const completionTime = calculateTime( Date.now(), task.status[0].time );
-        if(completionTime){
-            task.completionTime = Date.now()-task.status[0].time;
-            console.log(`Congrats ${userName}! You've successfully completed ${task.title} in ${completionTime.days} days ${completionTime.hours} hours ${completionTime.minutes} minutes!`);
-        }
-        showTask(task)
-        return true;
-    }
-    return false;
+const getCompletedTaskString = (task)=>{
+    const completionTime = calculateTime(task.completionTime);
+    const minuteString = completionTime.minutes ? `${completionTime.minutes} minutes` : ''; 
+    const hourString = completionTime.hours ? `${completionTime.hours} hours` : ''; 
+    const dayString = completionTime.days ? `${completionTime.days} days` : '';
+    return `${dayString} ${hourString} ${minuteString}`; 
 }
 //task utilities end
 
@@ -165,10 +155,11 @@ const appendStatusEntry = ( task , taskStatusEntry) => {
     if( isTaskStatusValid ) {
         const statusEntry = newStatusEntry(taskStatusEntry);
         task.status.push(statusEntry);
-        if(!isTaskCompleted(task,taskStatusEntry)){
-            showTask(task);
+        if(taskStatusEntry === 100 || taskStatusEntry === "Done"){
+            task.completionTime = Date.now()-task.status[0].time;
+            console.log(getCompletedTaskString(task));
         }
-
+        showTask(task);
     } else {
         console.log('Invalid Status Entry!')
     }
