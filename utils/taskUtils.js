@@ -10,13 +10,19 @@ const createNewTask = (taskTitle,taskInfo) => {
     return {
             title:taskTitle,
             info:taskInfo,
-            created: Date(),
-            status:[]
+            created: Date.now(),
+            status:[],
+            completionTime : null
     }
 }
 
 const saveTasks = (newTasks) => {
     fs.writeFileSync('task-data.json',JSON.stringify(newTasks,undefined,2));
+}
+
+const displayDateTime = ( timestamp )=>{
+    const date = new Date(timestamp);
+    return date.toString();
 }
 
 const fetchSavedTasks = () => {
@@ -30,7 +36,7 @@ const fetchSavedTasks = () => {
 }
 
 const showTask = ( task ) => {
-    console.log(`\nTitle: ${task.title}\nInfo: ${task.info}\nCurrent Status: ${currentStatus(task)+taskEntrySuffix(currentStatus(task))}\nCreated: ${task.created}\n`)
+    console.log(`\nTitle: ${task.title}\nInfo: ${task.info}\nCurrent Status: ${currentStatus(task)+taskEntrySuffix(currentStatus(task))}\nCreated: ${displayDateTime(task.created)}\n`);
 }
 
 const isTaskTitleValid = ( taskTitle ) => taskTitle && taskTitle.length > 0 ; 
@@ -86,13 +92,44 @@ const showPendingTasks = ( savedTasks ) => {
         console.log(`My! My! ${userName} you have completed all the tasks.`)
     }
 }
+
+const calculateTime = (newTime , oldTime)=>{
+    let difference = newTime-oldTime;
+    const days = Math.floor(difference/1000/60/60/24);
+    difference -= days*1000*60*60*24;
+    const hours = Math.floor(difference/1000/60/60);
+    difference -= hours*1000*60*60;
+    const minutes = Math.floor(difference/1000/60);
+    if(!minutes && !hours && !days){
+        return 0;
+    }else{
+        return {
+            days,
+            hours,
+            minutes
+        }
+    }
+}
+
+const isTaskCompleted = (task,taskStatusEntry)=>{
+    if( taskStatusEntry === 100 || taskStatusEntry === "Done"){
+        const completionTime = calculateTime( Date.now(), task.status[0].time );
+        if(completionTime){
+            task.completionTime = Date.now()-task.status[0].time;
+            console.log(`Congrats ${userName}! You've successfully completed ${task.title} in ${completionTime.days} days ${completionTime.hours} hours ${completionTime.minutes} minutes!`);
+        }
+        showTask(task)
+        return true;
+    }
+    return false;
+}
 //task utilities end
 
 //status utilites begin
 const newStatusEntry = ( taskEntry ) => {
     return {
         value : taskEntry,
-        time : Date()
+        time : Date.now()
     }
 }
 
@@ -105,7 +142,7 @@ const taskEntrySuffix = ( statusEntryValue ) => {
 
 const showStatus = ( task ) => {
     for( let statusEntry of task.status ){
-        console.log(`\nStatus: ${statusEntry.value+taskEntrySuffix(statusEntry.value)}\nTime: ${statusEntry.time}\n`);
+        console.log(`\nStatus: ${statusEntry.value+taskEntrySuffix(statusEntry.value)}\nTime: ${displayDateTime(statusEntry.time)}\n`);
     }
 } 
 
@@ -128,10 +165,10 @@ const appendStatusEntry = ( task , taskStatusEntry) => {
     if( isTaskStatusValid ) {
         const statusEntry = newStatusEntry(taskStatusEntry);
         task.status.push(statusEntry);
-        if( taskStatusEntry === 100 || taskStatusEntry === "Done"){
-            console.log(`Congrats ${userName}! You've successfully completed ${task.title}!`);
-            showTask(task)
+        if(!isTaskCompleted(task,taskStatusEntry)){
+            showTask(task);
         }
+
     } else {
         console.log('Invalid Status Entry!')
     }
