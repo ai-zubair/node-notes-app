@@ -1,5 +1,5 @@
 {
-  "name": "todo-cli",
+  "name": "todo-app",
   "version": "1.0.0",
   "description": "A command line utility replicating the behaviour of a to-do app.",
   "main": "app.js",
