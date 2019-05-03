@@ -106,12 +106,15 @@ const calculateTime = (timeDifference)=>{
     }
 }
 
-const getCompletedTaskString = (task)=>{
+const getCompletedTaskMessage = (task)=>{
     const completionTime = calculateTime(task.completionTime);
-    const minuteString = completionTime.minutes ? `${completionTime.minutes} minutes` : ''; 
-    const hourString = completionTime.hours ? `${completionTime.hours} hours` : ''; 
-    const dayString = completionTime.days ? `${completionTime.days} days` : '';
-    return `${dayString} ${hourString} ${minuteString}`; 
+    const minuteString = completionTime.minutes ? ` ${completionTime.minutes} minutes` : ''; 
+    const hourString = completionTime.hours ? ` ${completionTime.hours} hours` : ''; 
+    const dayString = completionTime.days ? ` ${completionTime.days} days` : '';
+    if(minuteString === '' && hourString === '' && dayString === ''){
+        return `Congrats ${userName}! You've successfully completed ${task.title}!`;
+    }
+    return `Congrats ${userName}! You've successfully completed ${task.title} in${dayString}${hourString}${minuteString}!`; 
 }
 //task utilities end
 
@@ -157,7 +160,7 @@ const appendStatusEntry = ( task , taskStatusEntry) => {
         task.status.push(statusEntry);
         if(taskStatusEntry === 100 || taskStatusEntry === "Done"){
             task.completionTime = Date.now()-task.status[0].time;
-            console.log(getCompletedTaskString(task));
+            console.log(getCompletedTaskMessage(task));
         }
         showTask(task);
     } else {
